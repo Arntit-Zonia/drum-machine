@@ -1,96 +1,61 @@
 import React from "react";
 
+//sound-effects
+import bounce from ".././sound-effects/bouncy-sound.mp3";
+import click from ".././sound-effects/clean-mouse-click.mp3";
+import crow from ".././sound-effects/crow-caw.mp3";
+import gameDeath from ".././sound-effects/game-die.mp3";
+import jump from ".././sound-effects/platform-jump.mp3";
+import pop from ".././sound-effects/pop-human-mouth-effect.mp3";
+import schwubb from ".././sound-effects/schwubb-sound-effect.mp3";
+import slap from ".././sound-effects/slap-cartoony.mp3";
+import whip from ".././sound-effects/whip-crack.mp3";
+
+const soundEffects = [
+	{ id: "Bounce", letter: "Q", keyCode: 81, path: bounce },
+	{ id: "Click", letter: "W", keyCode: 87, path: click },
+	{ id: "Crow", letter: "E", keyCode: 69, path: crow },
+	{ id: "Game-Death", letter: "A", keyCode: 65, path: gameDeath },
+	{ id: "Jump", letter: "S", keyCode: 83, path: jump },
+	{ id: "Pop", letter: "D", keyCode: 68, path: pop },
+	{ id: "Schwubb", letter: "Z", keyCode: 90, path: schwubb },
+	{ id: "Slap", letter: "X", keyCode: 88, path: slap },
+	{ id: "Whip", letter: "C", keyCode: 67, path: whip }
+];
+
+const playAudio = (audio) => {
+	new Audio(audio).play();
+};
+
 const DrumPads = ({ handleClick }) => {
-	return (
-		<>
-			<div className="top-container">
+	const renderSoundEffects = () => {
+		return soundEffects.map((sound) => {
+			document.addEventListener("keydown", (e) => {
+				if (e.keyCode === sound.keyCode) playAudio(sound.path);
+			});
+			return (
 				<div
-					onClick={handleClick}
-					className=" drum-pad"
-					id="bouncy-sound"
+					onClick={(e) => {
+						handleClick(e);
+						playAudio(sound.path);
+					}}
+					className="drum-pads-container"
+					key={sound.id}
 				>
-					Q
-					<audio
-						src="../../sound-effects/bouncy-sound"
-						className="clip"
-						id="Q"
-					></audio>
+					<div className="drum-pad" id={sound.id}>
+						<span>{sound.letter}</span>
+						<audio
+							src={sound.path}
+							className="clip"
+							id={sound.letter}
+						></audio>
+					</div>
 				</div>
-				<div
-					onClick={handleClick}
-					className="drum-pad"
-					id="mouse-click"
-				>
-					W
-					<audio
-						src="../../sound-effects/mouse-click"
-						className="clip"
-						id="W"
-					></audio>
-				</div>
-				<div onClick={handleClick} className="drum-pad" id="crow">
-					E
-					<audio
-						src="../../sound-effects/crow"
-						className="clip"
-						id="E"
-					></audio>
-				</div>
-			</div>
-			<div className="mid-container">
-				<div onClick={handleClick} className="drum-pad" id="game-die">
-					A
-					<audio
-						src="../../sound-effects/game-die"
-						className="clip"
-						id="A"
-					></audio>
-				</div>
-				<div onClick={handleClick} className="drum-pad" id="jump">
-					S
-					<audio
-						src="../../sound-effects/platform-jump"
-						className="clip"
-						id="S"
-					></audio>
-				</div>
-				<div onClick={handleClick} className="drum-pad" id="mouth">
-					D
-					<audio
-						src="../../sound-effects/pop-human-mouth-effect"
-						className="clip"
-						id="D"
-					></audio>
-				</div>
-			</div>
-			<div className="bottom-container">
-				<div onClick={handleClick} className="drum-pad" id="schwubb">
-					Z
-					<audio
-						src="../../sound-effects/schwubb-sound-effect"
-						className="clip"
-						id="Z"
-					></audio>
-				</div>
-				<div onClick={handleClick} className="drum-pad" id="slap">
-					X
-					<audio
-						src="../../sound-effects/slap-cartoony"
-						className="clip"
-						id="X"
-					></audio>
-				</div>
-				<div onClick={handleClick} className="drum-pad" id="whip">
-					C
-					<audio
-						src="../../sound-effects/whip-crack"
-						className="clip"
-						id="C"
-					></audio>
-				</div>
-			</div>
-		</>
-	);
+			);
+		});
+	};
+
+	return <>{renderSoundEffects()}</>;
 };
 
 export default DrumPads;

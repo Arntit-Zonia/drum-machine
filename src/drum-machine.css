@@ -1,5 +1,4 @@
 #drum-machine {
-	position: relative;
 	display: flex;
 	flex-flow: row wrap;
 	justify-content: space-between;
@@ -12,14 +11,8 @@
 	padding: 15px;
 }
 
-.top-container,
-.mid-container,
-.bottom-container {
-	display: flex;
-}
-
 .drum-pad {
-	width: 60px;
+	width: 100px;
 	height: 60px;
 	border: 1px solid black;
 	border-radius: 15px;
@@ -40,11 +33,11 @@
 	position: absolute;
 	right: 0;
 	width: 150px;
-	height: 100px;
+	height: 50px;
 	text-align: center;
 	font-size: 20px;
-	line-height: 100px;
-	margin: 80px 20px;
+	line-height: 50px;
+	margin: 113px 200px;
 	border: 1px solid black;
 	border-radius: 15px;
 	padding: 10px;
