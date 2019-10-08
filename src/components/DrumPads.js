@@ -1,55 +1,93 @@
-import React from "react";
-
-//sound-effects
-import bounce from ".././sound-effects/bouncy-sound.mp3";
-import click from ".././sound-effects/clean-mouse-click.mp3";
-import crow from ".././sound-effects/crow-caw.mp3";
-import gameDeath from ".././sound-effects/game-die.mp3";
-import jump from ".././sound-effects/platform-jump.mp3";
-import pop from ".././sound-effects/pop-human-mouth-effect.mp3";
-import schwubb from ".././sound-effects/schwubb-sound-effect.mp3";
-import slap from ".././sound-effects/slap-cartoony.mp3";
-import whip from ".././sound-effects/whip-crack.mp3";
+import React, { useState, useRef } from "react";
+import Audioz from "./Audio";
 
 const soundEffects = [
-	{ id: "Bounce", letter: "Q", keyCode: 81, path: bounce },
-	{ id: "Click", letter: "W", keyCode: 87, path: click },
-	{ id: "Crow", letter: "E", keyCode: 69, path: crow },
-	{ id: "Game-Death", letter: "A", keyCode: 65, path: gameDeath },
-	{ id: "Jump", letter: "S", keyCode: 83, path: jump },
-	{ id: "Pop", letter: "D", keyCode: 68, path: pop },
-	{ id: "Schwubb", letter: "Z", keyCode: 90, path: schwubb },
-	{ id: "Slap", letter: "X", keyCode: 88, path: slap },
-	{ id: "Whip", letter: "C", keyCode: 67, path: whip }
+	{
+		id: "Heater-1",
+		letter: "Q",
+		keyCode: 81,
+		path: "https://s3.amazonaws.com/freecodecamp/drums/Heater-1.mp3"
+	},
+	{
+		id: "Heater-2",
+		letter: "W",
+		keyCode: 87,
+		path: "https://s3.amazonaws.com/freecodecamp/drums/Heater-2.mp3"
+	},
+	{
+		id: "Heater-3",
+		letter: "E",
+		keyCode: 69,
+		path: "https://s3.amazonaws.com/freecodecamp/drums/Heater-3.mp3"
+	},
+	{
+		id: "Heater-4",
+		letter: "A",
+		keyCode: 65,
+		path: "https://s3.amazonaws.com/freecodecamp/drums/Heater-4_1.mp3"
+	},
+	{
+		id: "Clap",
+		letter: "S",
+		keyCode: 83,
+		path: "https://s3.amazonaws.com/freecodecamp/drums/Heater-6.mp3"
+	},
+	{
+		id: "Drums",
+		letter: "D",
+		keyCode: 68,
+		path: "https://s3.amazonaws.com/freecodecamp/drums/Dsc_Oh.mp3"
+	},
+	{
+		id: "Kick-n-Hat",
+		letter: "Z",
+		keyCode: 90,
+		path: "https://s3.amazonaws.com/freecodecamp/drums/Kick_n_Hat.mp3"
+	},
+	{
+		id: "Kick",
+		letter: "X",
+		keyCode: 88,
+		path: "https://s3.amazonaws.com/freecodecamp/drums/RP4_KICK_1.mp3"
+	},
+	{
+		id: "Cev",
+		letter: "C",
+		keyCode: 67,
+		path: "https://s3.amazonaws.com/freecodecamp/drums/Cev_H2.mp3"
+	}
 ];
 
-const playAudio = (audio) => {
-	new Audio(audio).play();
-};
-
 const DrumPads = ({ handleClick }) => {
+	const [currentSound, setCurrentSound] = useState(null);
+	const childRef = useRef();
+
 	const renderSoundEffects = () => {
 		return soundEffects.map((sound) => {
-			document.addEventListener("keydown", (e) => {
-				if (e.keyCode === sound.keyCode) playAudio(sound.path);
+			document.body.addEventListener("keydown", (e) => {
+				if (e.keyCode === sound.keyCode)
+					childRef.current.playAudio(sound.path);
 			});
 			return (
 				<div
+					className="drum-pad"
+					key={sound.id}
+					id={sound.id}
 					onClick={(e) => {
 						handleClick(e);
-						playAudio(sound.path);
+						setCurrentSound(
+							e.currentTarget.children[0].attributes[0]
+						);
+						childRef.current.playAudio(sound.path);
 					}}
-					className="drum-pads-container"
-					key={sound.id}
 				>
-					<div className="drum-pad" id={sound.id}>
-						<span>{sound.letter}</span>
-						<audio
-							src={sound.path}
-							className="clip"
-							id={sound.letter}
-						></audio>
-					</div>
+					{sound.letter}
+					<Audioz
+						currentSound={currentSound}
+						ref={childRef}
+						letter={sound.letter}
+						path={sound.path}
+					/>
 				</div>
 			);
 		});
