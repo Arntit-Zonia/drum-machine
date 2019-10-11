@@ -1,5 +1,5 @@
-import React, { useState, useRef } from "react";
-import Audioz from "./Audio";
+import React from "react";
+import Audio from "./Audio";
 
 const soundEffects = [
 	{
@@ -59,15 +59,8 @@ const soundEffects = [
 ];
 
 const DrumPads = ({ handleClick }) => {
-	const [currentSound, setCurrentSound] = useState(null);
-	const childRef = useRef();
-
 	const renderSoundEffects = () => {
 		return soundEffects.map((sound) => {
-			document.body.addEventListener("keydown", (e) => {
-				if (e.keyCode === sound.keyCode)
-					childRef.current.playAudio(sound.path);
-			});
 			return (
 				<div
 					className="drum-pad"
@@ -75,19 +68,13 @@ const DrumPads = ({ handleClick }) => {
 					id={sound.id}
 					onClick={(e) => {
 						handleClick(e);
-						setCurrentSound(
-							e.currentTarget.children[0].attributes[0]
-						);
-						childRef.current.playAudio(sound.path);
+						const audio = document.getElementById(e.target.id)
+							.childNodes[1];
+						audio.play();
 					}}
 				>
 					{sound.letter}
-					<Audioz
-						currentSound={currentSound}
-						ref={childRef}
-						letter={sound.letter}
-						path={sound.path}
-					/>
+					<Audio letter={sound.letter} path={sound.path} />
 				</div>
 			);
 		});

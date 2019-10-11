@@ -1,13 +1,7 @@
-import React, { forwardRef, useImperativeHandle } from "react";
+import React from "react";
 
-const Audioz = forwardRef(({ path, letter, currentSound }, ref) => {
-	useImperativeHandle(ref, () => ({
-		playAudio(target) {
-			new Audio(target).play();
-		}
-	}));
+const Audio = ({ path, letter }) => {
+	return <audio src={path} className="clip" id={letter}></audio>;
+};
 
-	return <audio ref={ref} src={path} className="clip" id={letter}></audio>;
-});
-
-export default Audioz;
+export default Audio;
