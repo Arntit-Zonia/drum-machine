@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Audio from "./Audio";
 
 const soundEffects = [
@@ -59,6 +59,14 @@ const soundEffects = [
 ];
 
 const DrumPads = ({ handleClick }) => {
+	useEffect(() => {
+		document.addEventListener("keydown", (e) => {
+			const audio = document.getElementById(e.key.toLocaleUpperCase());
+			// checks if a valid key is pressed && plays the specified audio
+			if (audio) audio.play();
+		});
+	}, []);
+
 	const renderSoundEffects = () => {
 		return soundEffects.map((sound) => {
 			return (

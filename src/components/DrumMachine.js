@@ -4,7 +4,7 @@ import Display from "./Display";
 import DrumPads from "./DrumPads";
 
 const DrumMachine = () => {
-	const [displayVal, setDisplayVal] = useState("");
+	const [displayVal, setDisplayVal] = useState("Audio Title");
 
 	const handleClick = (e) => {
 		setDisplayVal(e.target.id);
